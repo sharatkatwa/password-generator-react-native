@@ -24,7 +24,12 @@ const App = () => {
     //
   }
   const createPassword = (charecters: string, passwordLength: number) => {
-    //
+    let result = ''
+    for (let i = 0; i < passwordLength; i++) {
+      const charecterIndex = Math.round(Math.random() * charecters.length)
+      result += charecters.charAt(charecterIndex)
+    }
+    return result
   }
   const resetPasswordState = () => {
     //
@@ -32,7 +37,7 @@ const App = () => {
 
   return (
     <View>
-      <Text>App</Text>
+      <Text>{createPassword('abcd', 10)}</Text>
     </View>
   )
 }
