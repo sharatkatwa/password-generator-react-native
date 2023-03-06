@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 // Form Validation
 import * as Yup from 'yup'
@@ -12,7 +12,7 @@ const PasswordSchema = Yup.object().shape({
 })
 
 const App = () => {
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('No password generated')
   const [isPassGenerated, setIsPassGenerated] = useState(false)
 
   const [lowerCase, setLowerCase] = useState(true)
@@ -21,7 +21,31 @@ const App = () => {
   const [symbols, setSymbols] = useState(false)
 
   const generatePasswordString = (passwordLength: number) => {
-    //
+    const lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz'
+    const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const numberChars = '0123456789'
+    const symbolsChars = '@#$%^&*-+!'
+
+    let allCharecters: string = ''
+
+    if (lowerCase) {
+      allCharecters += lowerCaseChars
+    }
+    if (upperCase) {
+      allCharecters += upperCaseChars
+    }
+    if (numbers) {
+      allCharecters += numberChars
+    }
+    if (symbols) {
+      allCharecters += symbolsChars
+    }
+
+    const passwordResult = createPassword(allCharecters, passwordLength)
+    useEffect(() => {
+      setIsPassGenerated(true)
+      setPassword(passwordResult)
+    }, [])
   }
   const createPassword = (charecters: string, passwordLength: number) => {
     let result = ''
@@ -32,12 +56,17 @@ const App = () => {
     return result
   }
   const resetPasswordState = () => {
-    //
+    setPassword('')
+    setIsPassGenerated(false)
+    setLowerCase(true)
+    setUpperCase(false)
+    setNumbers(false)
+    setSymbols(false)
   }
-
+  generatePasswordString(10)
   return (
     <View>
-      <Text>{createPassword('abcd', 10)}</Text>
+      <Text>{`This is your password ${password}`}</Text>
     </View>
   )
 }
